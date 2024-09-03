@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defesa Estelar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="info">
+            <p>Vidas: <span id="lives">3</span></p>
+            <p>Score: <span id="score">0</span></p>
+        </div>
+        <div id="game-over" class="hidden">
+            <h1>Game Over</h1>
+            <p>Pontuação Final: <span id="final-score"></span></p>
+            <button id="restart-button">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script src="canvasSetup.js"></script>
+    <script src="player.js"></script>
+    <script src="controls.js"></script>
+    <script src="bullets.js"></script>
+    <script src="meteors.js"></script>
+    <script src="collision.js"></script>
+    <script src="gameUI.js"></script>
+    <script src="gameLoop.js"></script>
+</body>
+</html>
