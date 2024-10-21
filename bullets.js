@@ -21,3 +21,18 @@ function shootBullet() {
         lastShotTime = now;
     }
 }
+
+function shootBullet() {
+    const now = Date.now();
+    if (now - lastShotTime > shootInterval) {
+        bullets.push({
+            x: player.x + Math.cos(player.angle) * player.radius,
+            y: player.y + Math.sin(player.angle) * player.radius,
+            vx: Math.cos(player.angle) * 10,
+            vy: Math.sin(player.angle) * 10,
+            radius: 5
+        });
+        lastShotTime = now;
+        playShootSound();  // Toca o som de tiro
+    }
+}

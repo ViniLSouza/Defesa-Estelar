@@ -7,19 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="start-screen">
+        <h1>Defesa Estelar</h1>
+        <button id="start-button">JOGAR</button>
+    </div>
+    
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
         <div id="info">
             <p>Vidas: <span id="lives">3</span></p>
             <p>Score: <span id="score">0</span></p>
         </div>
+
         <div id="game-over" class="hidden">
             <h1>Game Over</h1>
             <p>Pontuação Final: <span id="final-score"></span></p>
             <button id="restart-button">Jogar Novamente</button>
         </div>
     </div>
-
+    <script src="audio.js"></script>
+    <script src="startScreen.js"></script>
     <script src="canvasSetup.js"></script>
     <script src="player.js"></script>
     <script src="controls.js"></script>

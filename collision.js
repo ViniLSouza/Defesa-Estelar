@@ -13,6 +13,7 @@ function checkCollisions() {
                 bullets.splice(bIndex, 1);   // Remove a bala
                 score += 10;                 // Aumenta a pontuação
                 meteorSize = Math.max(10, meteorSize - 1);  // Diminui o tamanho dos meteoros (aumentando a dificuldade)
+                playExplosionSound();  // Toca o som de explosão
             }
         });
     });
