@@ -1,29 +1,34 @@
-// Função para atualizar o estado do jogo
 function update() {
-    // Ajusta a rotação do jogador com base nas teclas pressionadas
+    // Atualiza a rotação do jogador com base nas teclas pressionadas
     if (leftKeyPressed) player.angle -= 0.015;   // Rotaciona para a esquerda
     if (rightKeyPressed) player.angle += 0.015;  // Rotaciona para a direita
 
     // Dispara balas se a barra de espaço estiver pressionada
     if (spaceKeyPressed) shootBullet();
 
-    // Movimenta as balas
+    // Atualiza a posição das balas
     bullets.forEach(bullet => {
         bullet.x += bullet.vx;
         bullet.y += bullet.vy;
     });
-    
-    // Movimenta os meteoros
+
+    // Atualiza a posição dos meteoros
     meteors.forEach(meteor => {
         meteor.x += meteor.vx;
         meteor.y += meteor.vy;
     });
 
+    // Atualiza a posição das estrelas
+    updateStars();  // Chama a função de atualização das estrelas
+
     // Verifica colisões
     checkCollisions();
 
-    // Redesenha o canvas
+    // Limpa o canvas antes de redesenhar
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Desenha as estrelas no fundo
+    drawStars();    // Chama a função de desenhar as estrelas
 
     // Desenha o jogador
     drawPlayer(player.x, player.y, player.radius, player.angle);
@@ -56,7 +61,8 @@ function gameLoop() {
     }
 }
 
-// Inicia o loop do jogo
+// Inicializa as estrelas antes de começar o jogo
+createStars();
 gameLoop();
 // Gera meteoros a cada 1 segundo
 setInterval(spawnMeteor, 2000);
