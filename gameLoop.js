@@ -43,6 +43,7 @@ function update() {
 
     // Desenha os meteoros
     meteors.forEach(meteor => {
+        ctx.fillStyle = 'rgb(120, 64, 8)';
         ctx.beginPath();
         ctx.arc(meteor.x, meteor.y, meteor.radius, 0, Math.PI * 2);
         ctx.fill();
