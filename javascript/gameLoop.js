@@ -56,7 +56,7 @@ function update() {
 
 // Função principal do loop do jogo
 function gameLoop() {
-    if (lives > 0) {
+    if (lives > 0 && gameRunning) {
         update();  // Atualiza o estado do jogo
         requestAnimationFrame(gameLoop);  // Continua o loop do jogo
     }
