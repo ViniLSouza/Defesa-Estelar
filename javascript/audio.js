@@ -4,7 +4,7 @@ const backgroundMusic = new Audio('musica.wav');
 
 // Ajuste o volume de cada som (entre 0.0 e 1.0)
 shootSound.volume = 0.2;      // Volume do som de tiro
-explosionSound.volume = 0.3;  // Volume do som de explosão
+explosionSound.volume = 0.5;  // Volume do som de explosão
 backgroundMusic.volume = 0.5; // Volume da música de fundo
 
 // Função para tocar som de tiro
