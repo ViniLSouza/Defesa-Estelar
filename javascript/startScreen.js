@@ -13,7 +13,7 @@ function startGame() {
     startScreen.classList.add('hidden');
     gameRunning = true; // Inicia o jogo
     playBackgroundMusic();
-    gameLoop(); // Inicia o loop do jogo
+    restartGame(); // Reinicia o jogo
 }
 
 // Event listener para o botão de iniciar
