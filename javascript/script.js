@@ -6,6 +6,7 @@ const backgroundMusic = new Audio('musica.wav');
 shootSound.volume = 0.2;
 explosionSound.volume = 0.5;
 backgroundMusic.volume = 0.5;
+backgroundMusic.loop = true;
 
 // Funções para tocar os sons
 function playSound(sound) {
@@ -22,8 +23,8 @@ let score = 0;
 let lives = 3;
 let meteorSize = 60;
 const minMeteorSize = 10;
-let meteorSpeed = 1;
-let nextSizeReductionScore = 150; // Próximo marco de pontos para redução de tamanho
+let meteorSpeed = 3;
+let nextSizeReductionScore = 150;
 
 // Intervalo de disparo
 const shootInterval = 500;
@@ -132,8 +133,8 @@ function checkCollisions() {
 
 // Função de atualização do jogo
 function update() {
-    if (leftKeyPressed) player.angle -= 0.015;
-    if (rightKeyPressed) player.angle += 0.015;
+    if (leftKeyPressed) player.angle -= 0.030;
+    if (rightKeyPressed) player.angle += 0.030;
     if (spaceKeyPressed) shootBullet();
 
     bullets.forEach(bullet => {
@@ -228,16 +229,14 @@ function spawnMeteor() {
 
 // Ajuste dos atributos dos meteoros conforme a pontuação
 function adjustMeteorAttributes() {
-    // Verifica se atingiu a pontuação necessária para reduzir o tamanho dos meteoros
     if (score >= nextSizeReductionScore && meteorSize > minMeteorSize) {
-        meteorSize = Math.max(minMeteorSize, meteorSize - 5); // Reduz o tamanho em 5 unidades
-        nextSizeReductionScore += 150; // Atualiza a próxima pontuação para reduzir o tamanho
+        meteorSize = Math.max(minMeteorSize, meteorSize - 5);
+        nextSizeReductionScore += 150;
     }
 
-    // Diminuir o tempo de criação de meteoros a cada 200 pontos
     if (score > 0 && score % 200 === 0) {
         clearInterval(meteorInterval);
-        const newInterval = Math.max(500, 2000 - (score / 200) * 100); // Reduz o intervalo de criação
+        const newInterval = Math.max(500, 2000 - (score / 200) * 100);
         meteorInterval = setInterval(spawnMeteor, newInterval);
     }
 }
@@ -247,14 +246,17 @@ function restartGame() {
     score = 0;
     lives = 3;
     meteorSize = 60;
-    nextSizeReductionScore = 150; // Reinicia o controle da pontuação para redução de tamanho
+    nextSizeReductionScore = 150;
     meteors.length = 0;
     bullets.length = 0;
     player.x = canvas.width / 2;
     player.y = canvas.height / 2;
     player.angle = -Math.PI / 2;
     gameOverScreen.classList.add('hidden');
-    gameLoop();
+
+    if (gameRunning) {
+        gameLoop();
+    }
 }
 
 function showGameOverScreen() {
@@ -271,9 +273,9 @@ const finalScoreElement = document.getElementById('final-score');
 let meteorInterval = setInterval(spawnMeteor, 2000);
 
 function goToMainMenu() {
+    gameRunning = false;
     gameOverScreen.classList.add('hidden');
     showStartScreen();
-    restartGame();
 }
 
 function showStartScreen() {
@@ -293,26 +295,18 @@ document.getElementById('start-button').addEventListener('click', startGame);
 
 // Estrelas de fundo
 const stars = [];
-const starCount = 100;
-const starSpeed = 2;
+const starSpeed = 1;
 
 function createStars() {
-    for (let i = 0; i < starCount; i++) {
-        stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 2 + 1
-        });
+    for (let i = 0; i < 100; i++) {
+        stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height });
     }
 }
 
 function updateStars() {
     stars.forEach(star => {
         star.y += starSpeed;
-        if (star.y > canvas.height) {
-            star.x = Math.random() * canvas.width;
-            star.y = 0;
-        }
+        if (star.y > canvas.height) star.y = 0;
     });
 }
 
@@ -320,10 +314,10 @@ function drawStars() {
     ctx.fillStyle = 'white';
     stars.forEach(star => {
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
         ctx.fill();
     });
 }
 
 createStars();
-gameLoop();
+showStartScreen();

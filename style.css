@@ -1,12 +1,14 @@
+/* Estilos Gerais */
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: black;
-    color: rgb(255, 255, 255);
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #000428, #004e92); /* Fundo com gradiente */
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif; /* Fonte futurística */
 }
 
+/* Tela de Jogo */
 #game-container {
     position: relative;
     width: 100vw;
@@ -16,58 +18,106 @@ body {
 #gameCanvas {
     display: block;
     margin: 0 auto;
-    background: rgb(1, 0, 12);
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ffffff33; /* Borda sutil para o canvas */
+    border-radius: 10px;
 }
 
+/* Quadro de Pontos e Vidas */
 #info {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     z-index: 10;
-    color: white;
-    font-size: 18px;
+    color: #f8e71c; /* Cor vibrante para destaque */
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.8);
 }
 
-#game-over {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 30px;
-    border-radius: 10px;
-    z-index: 20;
-}
-
-.hidden {
-    display: none;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    font-size: 18px;
-    background-color: #ffffff;
-    color: #000000;
-    border: none;
-    cursor: pointer;
-}
-
+/* Tela de Início */
 #start-screen {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
     color: white;
     text-align: center;
-    padding: 50px;
-    border-radius: 10px;
+    padding: 50px 60px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
     z-index: 20;
 }
 
-#start-screen.hidden {
+#start-screen h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #f8e71c; /* Destaque para o título */
+    text-shadow: 2px 2px 15px rgba(248, 231, 28, 0.8);
+}
+
+#start-button {
+    padding: 15px 30px;
+    font-size: 22px;
+    color: #ffffff;
+    background-color: #f8333c;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#start-button:hover {
+    background-color: #ff6f61;
+}
+
+/* Tela de Fim de Jogo */
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    text-align: center;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
+
+#game-over h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #ff6f61;
+    text-shadow: 2px 2px 10px rgba(255, 111, 97, 0.8);
+}
+
+#game-over p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#restart-button, #main-menu-button {
+    display: block;
+    padding: 12px 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #f8333c;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+    margin: 10px auto; /* Espaço entre os botões */
+}
+
+#restart-button:hover, #main-menu-button:hover {
+    background-color: #ff6f61;
+}
+
+.hidden {
     display: none;
 }
