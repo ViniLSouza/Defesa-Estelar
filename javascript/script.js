@@ -41,12 +41,37 @@ let leftKeyPressed = false;
 let rightKeyPressed = false;
 let spaceKeyPressed = false;
 
-// Inicialização da imagem do meteoro e da nave
+// Inicialização da imagem do meteoro, nave e galinha
 const meteorImage = new Image();
 meteorImage.src = 'meteoro.png';
 
 const playerImage = new Image();
 playerImage.src = 'nave.png';
+
+const chickenImage = new Image();
+chickenImage.src = 'chicken.png';
+
+function spawnChicken() {
+    let x, y;
+    const side = Math.floor(Math.random() * 4);
+
+    switch (side) {
+        case 0: x = -meteorSize; y = Math.random() * canvas.height; break;
+        case 1: x = canvas.width + meteorSize; y = Math.random() * canvas.height; break;
+        case 2: x = Math.random() * canvas.width; y = -meteorSize; break;
+        case 3: x = Math.random() * canvas.width; y = canvas.height + meteorSize; break;
+    }
+
+    const dx = player.x - x;
+    const dy = player.y - y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const vx = (dx / distance) * meteorSpeed;
+    const vy = (dy / distance) * meteorSpeed;
+
+    meteors.push({ x, y, vx, vy, radius: meteorSize, isChicken: true });
+}
+setInterval(spawnChicken, 65000);  // Spawna a galinha a cada 65000ms
+
 
 // Objeto do jogador
 const player = {
@@ -98,6 +123,9 @@ function checkCollisions() {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < bullet.radius + meteor.radius) {
+                if (meteor.isChicken) {
+                    lives += 1;  // Ganha uma vida extra ao destruir a galinha
+                }
                 meteors.splice(mIndex, 1);
                 bullets.splice(bIndex, 1);
                 score += 10;
@@ -190,9 +218,14 @@ function drawBullets() {
 
 function drawMeteors() {
     meteors.forEach(meteor => {
-        ctx.drawImage(meteorImage, meteor.x - meteor.radius, meteor.y - meteor.radius, meteor.radius * 2, meteor.radius * 2);
+        if (meteor.isChicken) {
+            ctx.drawImage(chickenImage, meteor.x - meteor.radius, meteor.y - meteor.radius, meteor.radius * 2, meteor.radius * 2);
+        } else {
+            ctx.drawImage(meteorImage, meteor.x - meteor.radius, meteor.y - meteor.radius, meteor.radius * 2, meteor.radius * 2);
+        }
     });
 }
+
 
 // Funções para meteoros
 function spawnMeteor() {
@@ -228,16 +261,18 @@ function spawnMeteor() {
 }
 
 // Ajuste dos atributos dos meteoros conforme a pontuação
+let lastScoreCheck = 0;
 function adjustMeteorAttributes() {
     if (score >= nextSizeReductionScore && meteorSize > minMeteorSize) {
         meteorSize = Math.max(minMeteorSize, meteorSize - 5);
         nextSizeReductionScore += 150;
     }
 
-    if (score > 0 && score % 200 === 0) {
+    if (score >= 200 && score % 200 === 0 && score !== lastScoreCheck) {
         clearInterval(meteorInterval);
         const newInterval = Math.max(500, 2000 - (score / 200) * 100);
         meteorInterval = setInterval(spawnMeteor, newInterval);
+        lastScoreCheck = score;
     }
 }
 
