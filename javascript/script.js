@@ -1,11 +1,13 @@
 const shootSound = new Audio('tiro.mp3');
 const explosionSound = new Audio('explosao.mp3');
 const backgroundMusic = new Audio('musica.wav');
+const chickenSound = new Audio('chicken.wav');
 
 // Ajuste o volume de cada som (entre 0.0 e 1.0)
 shootSound.volume = 0.2;
 explosionSound.volume = 0.5;
 backgroundMusic.volume = 0.5;
+chickenSound.volume = 0.5;
 backgroundMusic.loop = true;
 
 // Funções para tocar os sons
@@ -125,6 +127,7 @@ function checkCollisions() {
             if (distance < bullet.radius + meteor.radius) {
                 if (meteor.isChicken) {
                     lives += 1;  // Ganha uma vida extra ao destruir a galinha
+                    playSound(chickenSound);
                 }
                 meteors.splice(mIndex, 1);
                 bullets.splice(bIndex, 1);
