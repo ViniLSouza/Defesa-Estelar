@@ -3,9 +3,9 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: linear-gradient(135deg, #000428, #004e92); /* Fundo com gradiente */
+    background: linear-gradient(135deg, #000428, #004e92);
     color: #ffffff;
-    font-family: 'Orbitron', sans-serif; /* Fonte futurística */
+    font-family: 'Orbitron', sans-serif;
 }
 
 /* Tela de Jogo */
@@ -19,7 +19,7 @@ body {
     display: block;
     margin: 0 auto;
     background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #ffffff33; /* Borda sutil para o canvas */
+    border: 2px solid #ffffff33;
     border-radius: 10px;
 }
 
@@ -29,7 +29,7 @@ body {
     top: 20px;
     left: 20px;
     z-index: 10;
-    color: #f8e71c; /* Cor vibrante para destaque */
+    color: #f8e71c;
     font-size: 20px;
     font-weight: bold;
     text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.8);
@@ -53,8 +53,14 @@ body {
 #start-screen h1 {
     font-size: 3em;
     margin-bottom: 20px;
-    color: #f8e71c; /* Destaque para o título */
+    color: #f8e71c;
     text-shadow: 2px 2px 15px rgba(248, 231, 28, 0.8);
+}
+
+.instructions {
+    font-size: 1.2em;
+    color: #b3b3b3;
+    margin-bottom: 20px;
 }
 
 #start-button {
@@ -111,7 +117,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-    margin: 10px auto; /* Espaço entre os botões */
+    margin: 10px auto;
 }
 
 #restart-button:hover, #main-menu-button:hover {

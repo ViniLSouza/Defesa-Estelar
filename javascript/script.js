@@ -115,6 +115,16 @@ function checkCollisions() {
                     lives += 1;
                     playSound(chickenSound);
                 }
+
+                // Divisão dos meteoros
+                if (meteor.splits > 0) {
+                    const newRadius = meteor.radius / 2;
+                    meteors.push(
+                        { x: meteor.x, y: meteor.y, vx: -meteor.vx, vy: -meteor.vy, radius: newRadius, splits: meteor.splits - 1 },
+                        { x: meteor.x, y: meteor.y, vx: meteor.vx, vy: meteor.vy, radius: newRadius, splits: meteor.splits - 1 }
+                    );
+                }
+
                 meteors.splice(mIndex, 1);
                 bullets.splice(bIndex, 1);
                 score += 10;
@@ -153,8 +163,8 @@ function checkCollisions() {
 }
 
 function update() {
-    if (leftKeyPressed) player.angle -= 0.030;
-    if (rightKeyPressed) player.angle += 0.030;
+    if (leftKeyPressed) player.angle -= 0.035;
+    if (rightKeyPressed) player.angle += 0.035;
     if (spaceKeyPressed) shootBullet();
 
     bullets.forEach(bullet => {
@@ -235,13 +245,23 @@ function spawnMeteor() {
     const vx = (dx / distance) * meteorSpeed;
     const vy = (dy / distance) * meteorSpeed;
 
-    meteors.push({ x, y, vx, vy, radius: meteorSize });
-}
+    const splits = Math.random() < 0.30 ? 1 : 0;
 
+    meteors.push({ x, y, vx, vy, radius: meteorSize, splits });
+}
+let meteorSpawnTime = 2000;
+const minMeteorSpawnTime = 500;
 let lastScoreCheck = 0;
 function adjustMeteorAttributes() {
     if (score >= nextSizeReductionScore && meteorSize > minMeteorSize) {
         meteorSize = Math.max(minMeteorSize, meteorSize - 5);
+        
+        meteorSpeed += 0.5;
+
+        meteorSpawnTime = Math.max(minMeteorSpawnTime, meteorSpawnTime - 250);
+        clearInterval(meteorInterval);
+        eteorInterval = setInterval(spawnMeteor, meteorSpawnTime);
+
         nextSizeReductionScore += 150;
     }
 }
