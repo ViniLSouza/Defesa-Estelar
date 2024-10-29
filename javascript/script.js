@@ -255,12 +255,12 @@ let lastScoreCheck = 0;
 function adjustMeteorAttributes() {
     if (score >= nextSizeReductionScore && meteorSize > minMeteorSize) {
         meteorSize = Math.max(minMeteorSize, meteorSize - 5);
-        
+
         meteorSpeed += 0.5;
 
         meteorSpawnTime = Math.max(minMeteorSpawnTime, meteorSpawnTime - 250);
         clearInterval(meteorInterval);
-        eteorInterval = setInterval(spawnMeteor, meteorSpawnTime);
+        meteorInterval = setInterval(spawnMeteor, meteorSpawnTime);
 
         nextSizeReductionScore += 150;
     }
