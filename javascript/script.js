@@ -248,6 +248,7 @@ function spawnMeteor() {
 
     meteors.push({ x, y, vx, vy, radius: meteorSize, splits });
 }
+
 let meteorSpawnTime = 2000;
 const minMeteorSpawnTime = 500;
 let lastScoreCheck = 0;
