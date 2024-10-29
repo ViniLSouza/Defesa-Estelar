@@ -163,8 +163,8 @@ function checkCollisions() {
 }
 
 function update() {
-    if (leftKeyPressed) player.angle -= 0.035;
-    if (rightKeyPressed) player.angle += 0.035;
+    if (leftKeyPressed) player.angle -= 0.05;
+    if (rightKeyPressed) player.angle += 0.05;
     if (spaceKeyPressed) shootBullet();
 
     bullets.forEach(bullet => {
