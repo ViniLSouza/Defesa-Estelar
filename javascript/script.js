@@ -191,14 +191,27 @@ function update() {
     adjustMeteorAttributes();
 }
 
-function gameLoop() {
-    if (lives > 0 && gameRunning) {
-        update();
-        requestAnimationFrame(gameLoop);
-    } else {
-        clearInterval(meteorInterval);
+const fps = 144; // Define a taxa de quadros para 15 FPS
+const frameInterval = 1000 / fps;
+let lastFrameTime = 0;
+
+function gameLoop(currentTime) {
+    const deltaTime = currentTime - lastFrameTime;
+    
+    if (deltaTime >= frameInterval) {
+        lastFrameTime = currentTime;
+        
+        if (lives > 0 && gameRunning) {
+            update(); // Executa a atualização do jogo
+        } else {
+            clearInterval(meteorInterval); // Encerra o spawn de meteoros caso o jogo termine
+            return;
+        }
     }
+    
+    requestAnimationFrame(gameLoop);
 }
+
 
 function drawPlayer() {
     ctx.save();
@@ -318,6 +331,8 @@ function startGame() {
     playSound(backgroundMusic);
     meteorInterval = setInterval(spawnMeteor, 2000);
     restartGame();
+
+    requestAnimationFrame(gameLoop); // Inicia o loop com a limitação de FPS
 }
 
 document.getElementById('start-button').addEventListener('click', startGame);
