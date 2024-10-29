@@ -116,7 +116,6 @@ function checkCollisions() {
                     playSound(chickenSound);
                 }
 
-                // Divisão dos meteoros
                 if (meteor.splits > 0) {
                     const newRadius = meteor.radius / 2;
                     meteors.push(
