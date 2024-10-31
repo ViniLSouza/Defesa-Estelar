@@ -3,10 +3,10 @@ const explosionSound = new Audio('explosao.mp3');
 const backgroundMusic = new Audio('musica.wav');
 const chickenSound = new Audio('chicken.wav');
 
-shootSound.volume = 1;
-explosionSound.volume = 1;
-backgroundMusic.volume = 1;
-chickenSound.volume = 1;
+shootSound.volume = 0.2;
+explosionSound.volume = 0.5;
+backgroundMusic.volume = 0.5;
+chickenSound.volume = 0.5;
 backgroundMusic.loop = true;
 
 function playSound(sound) {
