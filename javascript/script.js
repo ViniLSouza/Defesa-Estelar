@@ -3,10 +3,10 @@ const explosionSound = new Audio('explosao.mp3');
 const backgroundMusic = new Audio('musica.wav');
 const chickenSound = new Audio('chicken.wav');
 
-shootSound.volume = 0.2;
-explosionSound.volume = 0.5;
-backgroundMusic.volume = 0.5;
-chickenSound.volume = 0.5;
+shootSound.volume = 1;
+explosionSound.volume = 1;
+backgroundMusic.volume = 1;
+chickenSound.volume = 1;
 backgroundMusic.loop = true;
 
 function playSound(sound) {
@@ -23,7 +23,7 @@ const minMeteorSize = 10;
 let meteorSpeed = 3;
 let nextSizeReductionScore = 150;
 
-const shootInterval = 500;
+const shootInterval = 350;
 let lastShotTime = 0;
 
 const canvas = document.getElementById('gameCanvas');
@@ -63,7 +63,7 @@ function spawnChicken() {
 
     meteors.push({ x, y, vx, vy, radius: meteorSize, isChicken: true });
 }
-setInterval(spawnChicken, 65000);
+setInterval(spawnChicken, 60000);
 
 const player = {
     x: canvas.width / 2,
@@ -162,8 +162,8 @@ function checkCollisions() {
 }
 
 function update() {
-    if (leftKeyPressed) player.angle -= 0.05;
-    if (rightKeyPressed) player.angle += 0.05;
+    if (leftKeyPressed) player.angle -= 0.04;
+    if (rightKeyPressed) player.angle += 0.04;
     if (spaceKeyPressed) shootBullet();
 
     bullets.forEach(bullet => {
