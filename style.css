@@ -33,6 +33,14 @@ body {
     font-size: 20px;
     font-weight: bold;
     text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(248, 231, 28, 0.3);
+}
+
+#info p {
+    margin: 5px 0;
 }
 
 /* Tela de Início */
@@ -91,6 +99,7 @@ body {
     border-radius: 15px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
     z-index: 20;
+    min-width: 300px;
 }
 
 #game-over h1 {
@@ -102,7 +111,8 @@ body {
 
 #game-over p {
     font-size: 1.2em;
-    margin-bottom: 20px;
+    margin: 10px 0;
+    color: #f8e71c;
 }
 
 #restart-button, #main-menu-button {
@@ -126,4 +136,34 @@ body {
 
 .hidden {
     display: none;
+}
+
+/* Estilo para a tela de pausa */
+#pause-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    text-align: center;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 30;
+}
+
+#pause-screen h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #f8e71c;
+    text-shadow: 2px 2px 10px rgba(248, 231, 28, 0.8);
+}
+
+/* Estilo para o high score na tela inicial */
+.high-score {
+    font-size: 1.2em;
+    color: #f8e71c;
+    margin: 20px 0;
+    text-shadow: 1px 1px 5px rgba(248, 231, 28, 0.5);
 }

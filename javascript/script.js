@@ -77,6 +77,20 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowLeft') leftKeyPressed = true;
     if (e.code === 'ArrowRight') rightKeyPressed = true;
     if (e.code === 'Space') spaceKeyPressed = true;
+    if (e.code === 'Escape') {
+        gamePaused = !gamePaused;
+        if (gamePaused) {
+            showPauseScreen();
+            backgroundMusic.pause();
+            clearInterval(meteorInterval);
+            clearInterval(chickenInterval);
+        } else {
+            hidePauseScreen();
+            backgroundMusic.play();
+            meteorInterval = setInterval(spawnMeteor, 2000);
+            chickenInterval = setInterval(spawnChicken, 60000);
+        }
+    }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -113,7 +127,10 @@ function checkCollisions() {
             if (distance < bullet.radius + meteor.radius) {
                 if (meteor.isChicken) {
                     lives += 1;
-                    playSound(chickenSound);
+                    powerUpActive = true;
+                    powerUpDuration = 300; // 5 segundos a 60 FPS
+                    meteorSpeed = 2;
+                    playSound(powerUpSound);
                 }
 
                 if (meteor.splits > 0) {
@@ -162,9 +179,20 @@ function checkCollisions() {
 }
 
 function update() {
+    if (gamePaused) return;
+
     if (leftKeyPressed) player.angle -= 0.04;
     if (rightKeyPressed) player.angle += 0.04;
     if (spaceKeyPressed) shootBullet();
+
+    // Atualizar power-up
+    if (powerUpActive) {
+        powerUpDuration--;
+        if (powerUpDuration <= 0) {
+            powerUpActive = false;
+            meteorSpeed = 3 + difficultyLevel;
+        }
+    }
 
     bullets.forEach(bullet => {
         bullet.x += bullet.vx;
@@ -178,15 +206,18 @@ function update() {
 
     updateStars();
     checkCollisions();
+    updateHighScore();
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawStars();
     drawPlayer();
     drawBullets();
     drawMeteors();
+    drawPowerUpStatus();
 
     document.getElementById('score').textContent = score;
     document.getElementById('lives').textContent = lives;
+    document.getElementById('difficulty').textContent = difficultyLevel;
 
     adjustMeteorAttributes();
 }
@@ -266,42 +297,31 @@ let meteorSpawnTime = 2000;
 const minMeteorSpawnTime = 500;
 let lastScoreCheck = 0;
 function adjustMeteorAttributes() {
-    if (score >= nextSizeReductionScore && meteorSize > minMeteorSize) {
+    if (score >= nextSizeReductionScore) {
         meteorSize = Math.max(minMeteorSize, meteorSize - 5);
-
-        meteorSpeed += 0.5;
-
-        meteorSpawnTime = Math.max(minMeteorSpawnTime, meteorSpawnTime - 250);
-        clearInterval(meteorInterval);
-        meteorInterval = setInterval(spawnMeteor, meteorSpawnTime);
-
         nextSizeReductionScore += 150;
+        difficultyLevel++;
+        document.getElementById('difficulty').textContent = difficultyLevel;
     }
 }
 
 function restartGame() {
-    score = 0;
-    lives = 3;
-    meteorSize = 60;
-    nextSizeReductionScore = 150;
-    meteors.length = 0;
-    bullets.length = 0;
-    player.x = canvas.width / 2;
-    player.y = canvas.height / 2;
-    player.angle = -Math.PI / 2;
-    gameOverScreen.classList.add('hidden');
-    gameRunning = true;
-
-    clearInterval(meteorInterval);
-    meteorInterval = setInterval(spawnMeteor, 2000);
-
-    gameLoop();
+    document.getElementById('game-over').classList.add('hidden');
+    startGame();
 }
 
 
 function showGameOverScreen() {
-    finalScoreElement.textContent = score;
+    const gameOverScreen = document.getElementById('game-over');
     gameOverScreen.classList.remove('hidden');
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('game-over-high-score').textContent = highScore;
+    
+    // Limpar intervalos e parar música
+    clearInterval(meteorInterval);
+    clearInterval(chickenInterval);
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
 }
 
 document.getElementById('restart-button').addEventListener('click', restartGame);
@@ -311,12 +331,19 @@ let gameRunning = false;
 const gameOverScreen = document.getElementById('game-over');
 const finalScoreElement = document.getElementById('final-score');
 let meteorInterval;
+let chickenInterval;
 
 function goToMainMenu() {
-    gameRunning = false;
-    gameOverScreen.classList.add('hidden');
-    showStartScreen();
+    document.getElementById('game-over').classList.add('hidden');
+    document.getElementById('game-container').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+    initializeHighScore();
+    
+    // Limpar intervalos e parar música
     clearInterval(meteorInterval);
+    clearInterval(chickenInterval);
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
 }
 
 function showStartScreen() {
@@ -325,14 +352,41 @@ function showStartScreen() {
 }
 
 function startGame() {
-    const startScreen = document.getElementById('start-screen');
-    startScreen.classList.add('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('game-container').classList.remove('hidden');
     gameRunning = true;
-    playSound(backgroundMusic);
+    gamePaused = false;
+    score = 0;
+    lives = 3;
+    difficultyLevel = 1;
+    meteorSpeed = 3;
+    meteorSize = 60;
+    bullets.length = 0;
+    meteors.length = 0;
+    player.x = canvas.width / 2;
+    player.y = canvas.height / 2;
+    player.angle = -Math.PI / 2;
+    lastShotTime = 0;
+    powerUpActive = false;
+    powerUpDuration = 0;
+    
+    document.getElementById('score').textContent = score;
+    document.getElementById('lives').textContent = lives;
+    document.getElementById('difficulty').textContent = difficultyLevel;
+    
+    // Limpar intervalos existentes
+    clearInterval(meteorInterval);
+    clearInterval(chickenInterval);
+    
+    // Iniciar intervalos novamente
     meteorInterval = setInterval(spawnMeteor, 2000);
-    restartGame();
-
-    requestAnimationFrame(gameLoop); // Inicia o loop com a limitação de FPS
+    chickenInterval = setInterval(spawnChicken, 60000);
+    
+    // Iniciar música
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
+    
+    requestAnimationFrame(gameLoop);
 }
 
 document.getElementById('start-button').addEventListener('click', startGame);
@@ -366,3 +420,60 @@ function updateStars() {
 
 createStars();
 showStartScreen();
+
+// Adicionar variáveis globais para novas funcionalidades
+let gamePaused = false;
+let highScore = localStorage.getItem('highScore') || 0;
+let difficultyLevel = 1;
+let powerUpActive = false;
+let powerUpDuration = 0;
+
+// Adicionar após as outras constantes de áudio
+const powerUpSound = new Audio('chicken.wav');
+powerUpSound.volume = 0.3;
+
+// Adicionar após a função playSound
+function updateHighScore() {
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
+        document.getElementById('high-score').textContent = highScore;
+    }
+}
+
+// Adicionar após as outras funções de desenho
+function drawPowerUpStatus() {
+    if (powerUpActive) {
+        ctx.fillStyle = '#00ff00';
+        ctx.font = '20px Orbitron';
+        ctx.fillText(`Power-up ativo: ${Math.ceil(powerUpDuration / 60)}s`, 20, 80);
+    }
+}
+
+// Adicionar após a função showGameOverScreen para mostrar high score
+function showPauseScreen() {
+    const pauseScreen = document.createElement('div');
+    pauseScreen.id = 'pause-screen';
+    pauseScreen.innerHTML = `
+        <h2>Jogo Pausado</h2>
+        <p>Pressione ESC para continuar</p>
+    `;
+    document.getElementById('game-container').appendChild(pauseScreen);
+}
+
+function hidePauseScreen() {
+    const pauseScreen = document.getElementById('pause-screen');
+    if (pauseScreen) {
+        pauseScreen.remove();
+    }
+}
+
+// Adicionar após as variáveis globais
+function initializeHighScore() {
+    highScore = localStorage.getItem('highScore') || 0;
+    document.getElementById('high-score').textContent = highScore;
+    document.getElementById('start-high-score').textContent = highScore;
+}
+
+// Adicionar chamada para inicializar o high score no início do jogo
+initializeHighScore();

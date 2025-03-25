@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Defesa Estelar</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="start-screen">
@@ -13,8 +14,10 @@
             <strong>Objetivo:</strong> Destrua meteoros para ganhar pontos e evitar colisões. Galinhas espaciais aumentam suas vidas.<br><br>
             <strong>Controles:</strong><br>
             Setas Esquerda/Direita: Giram a nave<br>
-            Espaço: Atira
+            Espaço: Atira<br>
+            ESC: Pausa
         </p>
+        <p class="high-score">Recorde: <span id="start-high-score">0</span></p>
         <button id="start-button">JOGAR</button>
     </div>
     
@@ -23,11 +26,14 @@
         <div id="info">
             <p>Vidas: <span id="lives">3</span></p>
             <p>Score: <span id="score">0</span></p>
+            <p>Recorde: <span id="high-score">0</span></p>
+            <p>Dificuldade: <span id="difficulty">1</span></p>
         </div>
 
         <div id="game-over" class="hidden">
             <h1>Game Over</h1>
             <p>Pontuação Final: <span id="final-score"></span></p>
+            <p>Recorde: <span id="game-over-high-score"></span></p>
             <button id="restart-button">Jogar Novamente</button>
             <button id="main-menu-button">Voltar para Menu Principal</button>
         </div>
