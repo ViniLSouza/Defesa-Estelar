@@ -1,7 +1,7 @@
-const shootSound = new Audio('tiro.mp3');
-const explosionSound = new Audio('explosao.mp3');
-const backgroundMusic = new Audio('musica.wav');
-const chickenSound = new Audio('chicken.wav');
+const shootSound = new Audio('../assets/sounds/tiro.mp3');
+const explosionSound = new Audio('../assets/sounds/explosao.mp3');
+const backgroundMusic = new Audio('../assets/sounds/musica.wav');
+const chickenSound = new Audio('../assets/sounds/chicken.wav');
 
 shootSound.volume = 0.2;
 explosionSound.volume = 0.5;
@@ -36,13 +36,13 @@ let rightKeyPressed = false;
 let spaceKeyPressed = false;
 
 const meteorImage = new Image();
-meteorImage.src = 'meteoro.png';
+meteorImage.src = '../assets/images/meteoro.png';
 
 const playerImage = new Image();
-playerImage.src = 'nave.png';
+playerImage.src = '../assets/images/nave.png';
 
 const chickenImage = new Image();
-chickenImage.src = 'chicken.png';
+chickenImage.src = '../assets/images/chicken.png';
 
 function spawnChicken() {
     let x, y;
@@ -429,7 +429,7 @@ let powerUpActive = false;
 let powerUpDuration = 0;
 
 // Adicionar após as outras constantes de áudio
-const powerUpSound = new Audio('chicken.wav');
+const powerUpSound = new Audio('../assets/sounds/chicken.wav');
 powerUpSound.volume = 0.3;
 
 // Adicionar após a função playSound
